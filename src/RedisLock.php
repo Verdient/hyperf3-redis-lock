@@ -51,12 +51,14 @@ class RedisLock
     }
 
     /**
+     * 同步阻塞取得锁
+     *
      * @param int $seconds 等待的秒数
      * @param int $interval 重试间隔
      *
      * @author Verdient。
      */
-    public function block(int $seconds, $interval = 250000): bool
+    public function block(int $seconds, int $interval = 250000): bool
     {
         $starting = time();
         while (!$this->acquire()) {
@@ -75,6 +77,6 @@ class RedisLock
      */
     public function exists(): bool
     {
-        return $this->redis->exists($this->name) === 0;
+        return $this->redis->exists($this->name) !== 0;
     }
 }
